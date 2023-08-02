@@ -5,3 +5,11 @@ edition = "2021"
 
 [dependencies]
 zingo-testutils = { git = "https://github.com/zingolabs/zingolib.git", version = "0.1.0" }
+
+[profile.release]
+debug = false
+
+[profile.test]
+opt-level = 3
+debug = false
+

@@ -78,3 +78,8 @@ RUN apt autoremove -y \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Copy rust binary into docker image
+COPY target/release/zingo-regchest /usr/bin/zingo-regchest
+
+ENTRYPOINT ["/usr/bin/zingo-regchest"]
+
