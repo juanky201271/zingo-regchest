@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-zingo-testutils = { git = "https://github.com/zingolabs/zingolib.git", version = "0.1.0" }
+zingo-testutils = { git = "https://github.com/Oscar-Pepper/zingolib.git", version = "0.1.0", branch = "regchest" }
 
 [profile.release]
 debug = false

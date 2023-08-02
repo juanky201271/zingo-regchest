@@ -3586,7 +3586,7 @@ dependencies = [
 [[package]]
 name = "zingo-memo"
 version = "0.1.0"
-source = "git+https://github.com/zingolabs/zingolib.git#660938b684f89aef91a091f4e0594d26e4328a48"
+source = "git+https://github.com/Oscar-Pepper/zingolib.git?branch=regchest#660938b684f89aef91a091f4e0594d26e4328a48"
 dependencies = [
  "zcash_address",
  "zcash_client_backend",
@@ -3605,7 +3605,7 @@ dependencies = [
 [[package]]
 name = "zingo-testutils"
 version = "0.1.0"
-source = "git+https://github.com/zingolabs/zingolib.git#660938b684f89aef91a091f4e0594d26e4328a48"
+source = "git+https://github.com/Oscar-Pepper/zingolib.git?branch=regchest#660938b684f89aef91a091f4e0594d26e4328a48"
 dependencies = [
  "http",
  "incrementalmerkletree",
@@ -3627,7 +3627,7 @@ dependencies = [
 [[package]]
 name = "zingoconfig"
 version = "0.1.0"
-source = "git+https://github.com/zingolabs/zingolib.git#660938b684f89aef91a091f4e0594d26e4328a48"
+source = "git+https://github.com/Oscar-Pepper/zingolib.git?branch=regchest#660938b684f89aef91a091f4e0594d26e4328a48"
 dependencies = [
  "dirs",
  "http",
@@ -3640,7 +3640,7 @@ dependencies = [
 [[package]]
 name = "zingolib"
 version = "0.2.0"
-source = "git+https://github.com/zingolabs/zingolib.git#660938b684f89aef91a091f4e0594d26e4328a48"
+source = "git+https://github.com/Oscar-Pepper/zingolib.git?branch=regchest#660938b684f89aef91a091f4e0594d26e4328a48"
 dependencies = [
  "base58",
  "base64 0.13.1",
