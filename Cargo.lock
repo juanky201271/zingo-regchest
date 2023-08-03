@@ -3599,6 +3599,8 @@ dependencies = [
 name = "zingo-regchest"
 version = "0.1.0"
 dependencies = [
+ "futures",
+ "tokio",
  "zingo-testutils",
 ]
 

@@ -78,8 +78,16 @@ RUN apt autoremove -y \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy rust binary into docker image
-COPY target/release/zingo-regchest /usr/bin/zingo-regchest
+# Copy rust into docker image and build (to be replaced with git clone)
+RUN mkdir /usr/src/zingo-regchest
+WORKDIR /usr/src/zingo-regchest
+# COPY ./Cargo.lock ./Cargo.lock
+COPY ./Cargo.toml ./Cargo.toml
+COPY ./regtest ./regtest
+COPY ./src ./src
+RUN rm -f ./regtest/bin/*
+RUN ln -s /usr/bin/lightwalletd /usr/bin/zcashd /usr/bin/zcash-cli ./regtest/bin/
+RUN cargo build
 
-ENTRYPOINT ["/usr/bin/zingo-regchest"]
+ENTRYPOINT ["cargo", "run"]
 
