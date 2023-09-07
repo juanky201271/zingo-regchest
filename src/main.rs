@@ -6,6 +6,7 @@ use zingo_testutils::{self, scenarios};
 async fn main() {
     let (_regtest_manager, _child_process_handler) =
         scenarios::funded_orchard_mobileclient(1_000_000).await;
+    println!("Successfully launched scenario!");
     loop {
         thread::sleep(time::Duration::from_millis(100))
     }
