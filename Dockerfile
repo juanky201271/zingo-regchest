@@ -12,5 +12,5 @@ RUN ln -s /usr/bin/lightwalletd /usr/bin/zcashd /usr/bin/zcash-cli ./regtest/bin
 RUN cargo build --release
 
 # EXPOSE 20000
-ENTRYPOINT ["cargo", "run"]
+ENTRYPOINT ["cargo", "run", "--release"]
 
