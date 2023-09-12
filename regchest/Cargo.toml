@@ -1,12 +1,11 @@
 [package]
-name = "zingo-regchest"
+name = "regchest"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-futures = "0.3.28"
-tokio = { version = "1.29.1", features = ["full"] }
 zingo-testutils = { git = "https://github.com/Oscar-Pepper/zingolib.git", version = "0.1.0", branch = "regchest" }
+tokio = "1.32.0"
 
 [profile.release]
 debug = false
