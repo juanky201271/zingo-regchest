@@ -52,14 +52,13 @@ pub async fn launch() -> Result<Docker, bollard::errors::Error> {
     Ok(docker)
 }
 
-pub async fn close(docker: Docker) {
+pub async fn close(docker: Docker) -> Result<(), bollard::errors::Error> {
     let remove_options = Some(RemoveContainerOptions {
         force: true,
         ..Default::default()
     });
 
-    match docker.remove_container("regchest", remove_options).await {
-        Ok(_) => println!("Regchest container removed successfully"),
-        Err(e) => println!("Failed to remove regchest container: {}", e),
-    }
+    docker.remove_container("regchest", remove_options).await?;
+
+    Ok(())
 }
