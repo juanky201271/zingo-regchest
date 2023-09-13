@@ -1,6 +1,5 @@
 FROM zingodevops/ci-build:001
 
-# Copy rust into docker image and build (to be replaced with git clone)
 RUN mkdir /usr/src/regchest
 WORKDIR /usr/src/regchest
 COPY regchest/Cargo.lock ./Cargo.lock
