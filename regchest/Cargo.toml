@@ -4,7 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-zingo-testutils = { git = "https://github.com/Oscar-Pepper/zingolib.git", version = "0.1.0", branch = "regchest" }
+zingo-testutils = { git="https://github.com/Oscar-Pepper/zingolib.git", default-features=true, branch = "regchest" }
+# zingo-testutils = { git="https://github.com/zingolabs/zingolib.git", default-features=true, branch = "dev" }
 tokio = "1.32.0"
 
 [profile.release]
