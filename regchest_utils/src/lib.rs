@@ -2,12 +2,15 @@ use bollard::container::{
     Config, CreateContainerOptions, LogsOptions, RemoveContainerOptions, StartContainerOptions,
 };
 use bollard::models::HostConfig;
-use bollard::Docker;
+use bollard::{Docker, API_DEFAULT_VERSION};
 use futures::StreamExt;
 use std::default::Default;
 
-pub async fn launch() -> Result<Docker, bollard::errors::Error> {
-    let docker = Docker::connect_with_local_defaults()?;
+pub async fn launch(unix_socket: Option<&str>) -> Result<Docker, bollard::errors::Error> {
+    let docker = match unix_socket {
+        Some(socket) => Docker::connect_with_unix(socket, 600, API_DEFAULT_VERSION)?,
+        None => Docker::connect_with_local_defaults()?,
+    };
 
     let container_options = Some(CreateContainerOptions {
         name: "regchest",
