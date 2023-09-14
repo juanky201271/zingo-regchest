@@ -2,19 +2,12 @@ use bollard::container::{
     Config, CreateContainerOptions, LogsOptions, RemoveContainerOptions, StartContainerOptions,
 };
 use bollard::models::HostConfig;
-use bollard::{Docker, API_DEFAULT_VERSION};
+use bollard::Docker;
 use futures::StreamExt;
 use std::default::Default;
 
 pub async fn launch() -> Result<Docker, bollard::errors::Error> {
-    // let docker = Docker::connect_with_local_defaults()?;
-    // let docker = Docker::connect_with_unix("unix:///var/run/docker.sock", 1000, 1000)?;
-    // let docker = Docker::connect_with_unix("/var/run/docker.sock", 1000, API_DEFAULT_VERSION)?;
-    let docker = Docker::connect_with_unix(
-        "/Users/runner/.colima/default/docker.sock",
-        1000,
-        API_DEFAULT_VERSION,
-    )?;
+    let docker = Docker::connect_with_local_defaults()?;
 
     let container_options = Some(CreateContainerOptions {
         name: "regchest",
