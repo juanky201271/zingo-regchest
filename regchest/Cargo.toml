@@ -4,9 +4,12 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-zingo-testutils = { git="https://github.com/Oscar-Pepper/zingolib.git", default-features=true, branch = "regchest" }
-# zingo-testutils = { git="https://github.com/zingolabs/zingolib.git", default-features=true, branch = "dev" }
+zingo-testutils = { git="https://github.com/zingolabs/zingolib.git", default-features=true, branch = "dev" }
 tokio = "1.32.0"
+
+[patch.crates-io]
+incrementalmerkletree = { git = "https://github.com/zcash/incrementalmerkletree", rev = "bae25ad89c0c192bee625252d2d419bd56638e48" }
+shardtree = { git = "https://github.com/zcash/incrementalmerkletree", rev = "bae25ad89c0c192bee625252d2d419bd56638e48" }
 
 [profile.release]
 debug = false
