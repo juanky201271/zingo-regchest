@@ -1,5 +1,8 @@
 # Regchest
-Regtest zcash/lightwalletd server in a container
+Rust-driven zcash/lightwalletd regtest server in a docker container. Developed to reduce variation between systems and to allow hosts that are unable to run lightwalletd/zcashd binaries (i.e. non-linux systems) to have access to local regtest test environments.
+
+## Regchest utils
+This repo also includes a seperate rust library which provides functions which allow the docker container to be easily managed with cargo test runners.
 
 ## Upload new version to Docker Hub
 From the root directory:

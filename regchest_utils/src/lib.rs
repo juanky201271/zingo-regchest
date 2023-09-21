@@ -16,12 +16,13 @@ pub async fn launch(unix_socket: Option<&str>) -> Result<Docker, bollard::errors
         name: "regchest",
         ..Default::default()
     });
+    // TODO: Upgrade to published ports. Using host network mode has security concerns due to allowing the container unnecessary privileges. Should currently only be used in cases where the host is not put at risk such as VMs i.e. Github ephemeral runners.
     let host_config = HostConfig {
         network_mode: Some(String::from("host")),
         ..Default::default()
     };
     let container_config = Config {
-        image: Some("zingodevops/regchest:001"),
+        image: Some("zingodevops/regchest:002"),
         host_config: Some(host_config),
         ..Default::default()
     };
