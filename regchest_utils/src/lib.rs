@@ -7,16 +7,17 @@ use bollard::{Docker, API_DEFAULT_VERSION};
 use futures::StreamExt;
 use std::collections::HashMap;
 use std::default::Default;
+use std::{thread, time};
 
 pub async fn launch(unix_socket: Option<&str>) -> Result<Docker, bollard::errors::Error> {
     let docker = match unix_socket {
         Some(socket) => Docker::connect_with_unix(socket, 600, API_DEFAULT_VERSION)?,
         None => Docker::connect_with_local_defaults()?,
     };
-    if check_regchest_exists(&docker).await? {
-        panic!("Regchest container already exists!")
-        //     close(&docker).await.unwrap();
-    };
+    while check_regchest_exists(&docker).await? {
+        close(&docker).await.unwrap();
+        thread::sleep(time::Duration::from_secs(10))
+    }
     create_regchest_container(&docker).await?;
     start_regchest_container(&docker).await?;
     wait_for_launch(&docker).await?;
