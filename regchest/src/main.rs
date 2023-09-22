@@ -6,7 +6,7 @@ async fn main() {
     let (regtest_manager, mut child_process_handler) =
         scenarios::funded_orchard_mobileclient(1_000_000).await;
     regtest_manager
-        .generate_n_blocks(10)
+        .generate_n_blocks(9)
         .expect("Failed to generate blocks.");
     println!("Successfully launched regchest!");
 
