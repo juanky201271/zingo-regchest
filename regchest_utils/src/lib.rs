@@ -1,9 +1,11 @@
 use bollard::container::{
-    Config, CreateContainerOptions, LogsOptions, RemoveContainerOptions, StartContainerOptions,
+    Config, CreateContainerOptions, ListContainersOptions, LogsOptions, RemoveContainerOptions,
+    StartContainerOptions,
 };
 use bollard::models::HostConfig;
 use bollard::{Docker, API_DEFAULT_VERSION};
 use futures::StreamExt;
+use std::collections::HashMap;
 use std::default::Default;
 
 pub async fn launch(unix_socket: Option<&str>) -> Result<Docker, bollard::errors::Error> {
@@ -12,6 +14,13 @@ pub async fn launch(unix_socket: Option<&str>) -> Result<Docker, bollard::errors
         None => Docker::connect_with_local_defaults()?,
     };
 
+    let mut list_container_filters = HashMap::new();
+    list_container_filters.insert("name", vec!["regchest"]);
+    let list_container_options = Some(ListContainersOptions {
+        all: true,
+        filters: list_container_filters,
+        ..Default::default()
+    });
     let container_options = Some(CreateContainerOptions {
         name: "regchest",
         ..Default::default()
@@ -31,6 +40,16 @@ pub async fn launch(unix_socket: Option<&str>) -> Result<Docker, bollard::errors
         follow: true,
         ..Default::default()
     });
+
+    let container_summaries = docker.list_containers(list_container_options).await;
+    match container_summaries {
+        Ok(summaries) => {
+            if summaries.len() != 0 {
+                panic!("Regchest container has not been removed!")
+            }
+        }
+        Err(e) => return Err(e),
+    }
 
     docker
         .create_container(container_options, container_config)
