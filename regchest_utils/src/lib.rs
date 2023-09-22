@@ -13,7 +13,10 @@ pub async fn launch(unix_socket: Option<&str>) -> Result<Docker, bollard::errors
         Some(socket) => Docker::connect_with_unix(socket, 600, API_DEFAULT_VERSION)?,
         None => Docker::connect_with_local_defaults()?,
     };
-    check_regchest_is_not_listed(&docker).await?;
+    if check_regchest_exists(&docker).await? {
+        panic!("Regchest container already exists!")
+        //     close(&docker).await.unwrap();
+    };
     create_regchest_container(&docker).await?;
     start_regchest_container(&docker).await?;
     wait_for_launch(&docker).await?;
@@ -31,7 +34,7 @@ pub async fn close(docker: &Docker) -> Result<(), bollard::errors::Error> {
     Ok(())
 }
 
-async fn check_regchest_is_not_listed(docker: &Docker) -> Result<(), bollard::errors::Error> {
+async fn check_regchest_exists(docker: &Docker) -> Result<bool, bollard::errors::Error> {
     let mut list_container_filters = HashMap::new();
     list_container_filters.insert("name", vec!["regchest"]);
     let list_container_options = Some(ListContainersOptions {
@@ -39,11 +42,13 @@ async fn check_regchest_is_not_listed(docker: &Docker) -> Result<(), bollard::er
         filters: list_container_filters,
         ..Default::default()
     });
-    if docker.list_containers(list_container_options).await?.len() != 0 {
-        panic!("Regchest container already exists!")
+    let regchest_exists = if docker.list_containers(list_container_options).await?.len() != 0 {
+        true
+    } else {
+        false
     };
 
-    Ok(())
+    Ok(regchest_exists)
 }
 
 async fn create_regchest_container(docker: &Docker) -> Result<(), bollard::errors::Error> {
@@ -104,12 +109,9 @@ mod tests {
     use super::*;
 
     #[tokio::test]
-    async fn fail_if_regchest_already_exists() {
-        let docker = Docker::connect_with_local_defaults().unwrap();
-        create_regchest_container(&docker).await.unwrap();
-        start_regchest_container(&docker).await.unwrap();
-        wait_for_launch(&docker).await.unwrap();
-        check_regchest_is_not_listed(&docker).await.unwrap();
+    async fn launch_and_check_regchest_exists() {
+        let docker = launch(None).await.unwrap();
+        assert_eq!(check_regchest_exists(&docker).await.unwrap(), true);
         close(&docker).await.unwrap();
     }
 }
