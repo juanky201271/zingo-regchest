@@ -1,12 +1,10 @@
 FROM zingodevops/ci-build:001
 
-RUN mkdir /usr/src/regchest
-WORKDIR /usr/src/regchest
-COPY regchest/Cargo.lock ./Cargo.lock
-COPY regchest/Cargo.toml ./Cargo.toml
-COPY regchest/regtest ./regtest
-COPY regchest/src ./src
-RUN rm -f ./regtest/bin/*
+WORKDIR /usr/src
+RUN git clone https://github.com/zingolabs/zingo-regchest.git \
+    && cd zingo-regchest \
+    && git checkout cd33ff401a8c9d0ec32fe649d1af3f77f2937e26
+WORKDIR /usr/src/zingo-regchest/regchest
 RUN ln -s /usr/bin/lightwalletd /usr/bin/zcashd /usr/bin/zcash-cli ./regtest/bin/
 RUN cargo build --release
 
