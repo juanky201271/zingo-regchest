@@ -13,7 +13,25 @@ pub async fn launch(unix_socket: Option<&str>) -> Result<Docker, bollard::errors
         Some(socket) => Docker::connect_with_unix(socket, 600, API_DEFAULT_VERSION)?,
         None => Docker::connect_with_local_defaults()?,
     };
+    check_regchest_is_not_listed(&docker).await?;
+    create_regchest_container(&docker).await?;
+    start_regchest_container(&docker).await?;
+    wait_for_launch(&docker).await?;
 
+    Ok(docker)
+}
+
+pub async fn close(docker: &Docker) -> Result<(), bollard::errors::Error> {
+    let remove_options = Some(RemoveContainerOptions {
+        force: true,
+        ..Default::default()
+    });
+    docker.remove_container("regchest", remove_options).await?;
+
+    Ok(())
+}
+
+async fn check_regchest_is_not_listed(docker: &Docker) -> Result<(), bollard::errors::Error> {
     let mut list_container_filters = HashMap::new();
     list_container_filters.insert("name", vec!["regchest"]);
     let list_container_options = Some(ListContainersOptions {
@@ -21,6 +39,14 @@ pub async fn launch(unix_socket: Option<&str>) -> Result<Docker, bollard::errors
         filters: list_container_filters,
         ..Default::default()
     });
+    if docker.list_containers(list_container_options).await?.len() != 0 {
+        panic!("Regchest container already exists!")
+    };
+
+    Ok(())
+}
+
+async fn create_regchest_container(docker: &Docker) -> Result<(), bollard::errors::Error> {
     let container_options = Some(CreateContainerOptions {
         name: "regchest",
         ..Default::default()
@@ -35,29 +61,27 @@ pub async fn launch(unix_socket: Option<&str>) -> Result<Docker, bollard::errors
         host_config: Some(host_config),
         ..Default::default()
     };
+    docker
+        .create_container(container_options, container_config)
+        .await?;
+
+    Ok(())
+}
+
+async fn start_regchest_container(docker: &Docker) -> Result<(), bollard::errors::Error> {
+    docker
+        .start_container("regchest", None::<StartContainerOptions<String>>)
+        .await?;
+
+    Ok(())
+}
+
+async fn wait_for_launch(docker: &Docker) -> Result<(), bollard::errors::Error> {
     let logs_options = Some(LogsOptions::<String> {
         stdout: true,
         follow: true,
         ..Default::default()
     });
-
-    let container_summaries = docker.list_containers(list_container_options).await;
-    match container_summaries {
-        Ok(summaries) => {
-            if summaries.len() != 0 {
-                panic!("Regchest container has not been removed!")
-            }
-        }
-        Err(e) => return Err(e),
-    }
-
-    docker
-        .create_container(container_options, container_config)
-        .await?;
-    docker
-        .start_container("regchest", None::<StartContainerOptions<String>>)
-        .await?;
-
     let mut stream = docker.logs("regchest", logs_options);
     while let Some(result) = stream.next().await {
         match result {
@@ -72,16 +96,20 @@ pub async fn launch(unix_socket: Option<&str>) -> Result<Docker, bollard::errors
         }
     }
 
-    Ok(docker)
+    Ok(())
 }
 
-pub async fn close(docker: Docker) -> Result<(), bollard::errors::Error> {
-    let remove_options = Some(RemoveContainerOptions {
-        force: true,
-        ..Default::default()
-    });
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-    docker.remove_container("regchest", remove_options).await?;
-
-    Ok(())
+    #[tokio::test]
+    async fn fail_if_regchest_already_exists() {
+        let docker = Docker::connect_with_local_defaults().unwrap();
+        create_regchest_container(&docker).await.unwrap();
+        start_regchest_container(&docker).await.unwrap();
+        wait_for_launch(&docker).await.unwrap();
+        check_regchest_is_not_listed(&docker).await.unwrap();
+        close(&docker).await.unwrap();
+    }
 }

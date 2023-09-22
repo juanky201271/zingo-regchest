@@ -7,6 +7,9 @@ edition = "2021"
 bollard = "0.14.0"
 futures = "0.3.28"
 
+[dev-dependencies]
+tokio =  { version = "1.32.0", features = ["full"] }
+
 [profile.release]
 debug = false
 
