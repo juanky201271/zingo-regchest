@@ -3,11 +3,8 @@ use zingo_testutils::{self, scenarios};
 
 #[tokio::main]
 async fn main() {
-    let (regtest_manager, mut child_process_handler) =
-        scenarios::funded_orchard_mobileclient(1_000_000).await;
-    regtest_manager
-        .generate_n_blocks(9)
-        .expect("Failed to generate blocks.");
+    let (_regtest_manager, mut child_process_handler) =
+        scenarios::funded_orchard_with_3_txs_mobileclient(1_000_000).await;
     println!("Successfully launched regchest!");
 
     loop {
