@@ -63,7 +63,7 @@ async fn create_regchest_container(docker: &Docker) -> Result<(), bollard::error
         ..Default::default()
     };
     let container_config = Config {
-        image: Some("zingodevops/regchest:003"),
+        image: Some("zingodevops/regchest:004"),
         host_config: Some(host_config),
         ..Default::default()
     };
