@@ -3,7 +3,7 @@ Rust-driven zcash/lightwalletd regtest server in a docker container. Developed t
 
 Regchest is still in early stages of development and currently only provides a 10-block blockchain and a 1_000_000 zat funded orchard pool with the seed:
 
-"hospital museum valve antique skate museum unfold vocal weird milk scale social vessel identify crowd hospital control album rib bulb path oven civil tank"
+`hospital museum valve antique skate museum unfold vocal weird milk scale social vessel identify crowd hospital control album rib bulb path oven civil tank`
 
 This allows for testing basic operations such as syncing and sending but will be expanded in the future to be configurable to allow for a wider range of test scenarios.
 
