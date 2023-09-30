@@ -3,6 +3,10 @@ name = "regchest"
 version = "0.1.0"
 edition = "2021"
 
+[features]
+funded_orchard_mobileclient = []
+funded_orchard_with_3_txs_mobileclient = []
+
 [dependencies]
 zingo-testutils = { git="https://github.com/zingolabs/zingolib.git", default-features=true, branch = "dev" }
 tokio = "1.32.0"
@@ -13,4 +17,3 @@ debug = false
 [profile.test]
 opt-level = 3
 debug = false
-
