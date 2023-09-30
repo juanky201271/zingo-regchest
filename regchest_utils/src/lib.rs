@@ -9,16 +9,20 @@ use std::collections::HashMap;
 use std::default::Default;
 use std::{thread, time};
 
-pub async fn launch(unix_socket: Option<&str>) -> Result<Docker, bollard::errors::Error> {
+pub async fn launch(unix_socket: Option<&str>, scenario: Option<&str>) -> Result<Docker, bollard::errors::Error> {
     let docker = match unix_socket {
         Some(socket) => Docker::connect_with_unix(socket, 600, API_DEFAULT_VERSION)?,
         None => Docker::connect_with_local_defaults()?,
+    };
+    let docker_scenario = match scenario {
+        Some(scen) => "--feature ".to_string() + scen,
+        None => "--feature funded_orchard_mobileclient".to_string(),
     };
     while check_regchest_exists(&docker).await? {
         close(&docker).await.unwrap();
         thread::sleep(time::Duration::from_secs(10))
     }
-    create_regchest_container(&docker).await?;
+    create_regchest_container(&docker, &docker_scenario).await?;
     start_regchest_container(&docker).await?;
     wait_for_launch(&docker).await?;
 
@@ -52,7 +56,7 @@ async fn check_regchest_exists(docker: &Docker) -> Result<bool, bollard::errors:
     Ok(regchest_exists)
 }
 
-async fn create_regchest_container(docker: &Docker) -> Result<(), bollard::errors::Error> {
+async fn create_regchest_container(docker: &Docker, scenario: &str) -> Result<(), bollard::errors::Error> {
     let container_options = Some(CreateContainerOptions {
         name: "regchest",
         ..Default::default()
@@ -63,8 +67,9 @@ async fn create_regchest_container(docker: &Docker) -> Result<(), bollard::error
         ..Default::default()
     };
     let container_config = Config {
-        image: Some("zingodevops/regchest:004"),
+        image: Some("zingodevops/regchest:005"),
         host_config: Some(host_config),
+        cmd: Some(vec![scenario]),
         ..Default::default()
     };
     docker
