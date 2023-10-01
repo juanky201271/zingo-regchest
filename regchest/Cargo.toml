@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [features]
+default = ["funded_orchard_mobileclient"]
 funded_orchard_mobileclient = []
 funded_orchard_with_3_txs_mobileclient = []
 
