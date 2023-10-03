@@ -15,8 +15,8 @@ pub async fn launch(unix_socket: Option<&str>, scenario: Option<&str>) -> Result
         None => Docker::connect_with_local_defaults()?,
     };
     let docker_scenario = match scenario {
-        Some(scen) => "--no-default-features --feature ".to_string() + scen,
-        None => "--no-default-features --feature funded_orchard_mobileclient".to_string(),
+        Some(scen) => "--no-default-features --features ".to_string() + scen,
+        None => "--no-default-features --features funded_orchard_mobileclient".to_string(),
     };
     while check_regchest_exists(&docker).await? {
         close(&docker).await.unwrap();
