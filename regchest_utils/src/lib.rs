@@ -67,7 +67,7 @@ async fn create_regchest_container(docker: &Docker, scenario: &str) -> Result<()
         ..Default::default()
     };
     let container_config = Config {
-        image: Some("zingodevops/regchest:005"),
+        image: Some("zingodevops/regchest:006"),
         host_config: Some(host_config),
         cmd: Some(vec![scenario]),
         ..Default::default()
