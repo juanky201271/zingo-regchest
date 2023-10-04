@@ -3,6 +3,9 @@ use zingo_testutils::{self, scenarios};
 
 #[tokio::main]
 async fn main() {
+    #[cfg(feature = "funded_orchard_sapling_transparent_shielded_mobileclient")]
+    let (_regtest_manager, mut child_process_handler) =
+        scenarios::funded_orchard_sapling_transparent_shielded_mobileclient(1_000_000).await;
     #[cfg(feature = "funded_orchard_with_3_txs_mobileclient")]
     let (_regtest_manager, mut child_process_handler) =
         scenarios::funded_orchard_with_3_txs_mobileclient(1_000_000).await;
