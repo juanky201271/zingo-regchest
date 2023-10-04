@@ -15,8 +15,8 @@ pub async fn launch(unix_socket: Option<&str>, scenario: Option<&str>) -> Result
         None => Docker::connect_with_local_defaults()?,
     };
     let docker_scenario = match scenario {
-        Some(scen) => "--features ".to_string() + scen,
-        None => "--features funded_orchard_mobileclient".to_string(),
+        Some(scen) => scen,
+        None => "funded_orchard_mobileclient",
     };
     while check_regchest_exists(&docker).await? {
         close(&docker).await.unwrap();
@@ -69,7 +69,7 @@ async fn create_regchest_container(docker: &Docker, scenario: &str) -> Result<()
     let container_config = Config {
         image: Some("zingodevops/regchest:006"),
         host_config: Some(host_config),
-        cmd: Some(vec!["--no-default-features", scenario]),
+        cmd: Some(vec!["--no-default-features", "--features", scenario]),
         ..Default::default()
     };
     docker
@@ -116,7 +116,7 @@ mod tests {
 
     #[tokio::test]
     async fn launch_and_check_regchest_exists() {
-        let docker = launch(None, Some("funded_orchard_mobileclient")).await.unwrap();
+        let docker = launch(None, None).await.unwrap();
         assert_eq!(check_regchest_exists(&docker).await.unwrap(), true);
         close(&docker).await.unwrap();
     }
