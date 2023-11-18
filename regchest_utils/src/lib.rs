@@ -11,7 +11,7 @@ use std::{thread, time};
 
 pub async fn launch(unix_socket: Option<&str>, scenario: Option<&str>) -> Result<Docker, bollard::errors::Error> {
     let docker = match unix_socket {
-        Some(socket) => Docker::connect_with_unix(socket, 600, API_DEFAULT_VERSION)?,
+        Some(socket) => Docker::connect_with_local(socket, 600, API_DEFAULT_VERSION)?,
         None => Docker::connect_with_local_defaults()?,
     };
     let docker_scenario = match scenario {
