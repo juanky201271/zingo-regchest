@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-bollard = "0.14.0"
+bollard = "0.17.1"
 futures = "0.3.28"
 
 [dev-dependencies]

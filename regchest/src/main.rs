@@ -1,5 +1,5 @@
 use std::{thread, time};
-use zingo_testutils::{self, scenarios};
+use zingolib::testutils::{self, scenarios};
 
 #[tokio::main]
 async fn main() {
