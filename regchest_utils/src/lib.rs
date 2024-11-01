@@ -9,7 +9,10 @@ use std::collections::HashMap;
 use std::default::Default;
 use std::{thread, time};
 
-pub async fn launch(unix_socket: Option<&str>, scenario: Option<&str>) -> Result<Docker, bollard::errors::Error> {
+pub async fn launch(
+    unix_socket: Option<&str>,
+    scenario: Option<&str>,
+) -> Result<Docker, bollard::errors::Error> {
     let docker = match unix_socket {
         Some(socket) => Docker::connect_with_local(socket, 600, API_DEFAULT_VERSION)?,
         None => Docker::connect_with_local_defaults()?,
@@ -56,7 +59,10 @@ async fn check_regchest_exists(docker: &Docker) -> Result<bool, bollard::errors:
     Ok(regchest_exists)
 }
 
-async fn create_regchest_container(docker: &Docker, scenario: &str) -> Result<(), bollard::errors::Error> {
+async fn create_regchest_container(
+    docker: &Docker,
+    scenario: &str,
+) -> Result<(), bollard::errors::Error> {
     let container_options = Some(CreateContainerOptions {
         name: "regchest",
         ..Default::default()
@@ -67,7 +73,7 @@ async fn create_regchest_container(docker: &Docker, scenario: &str) -> Result<()
         ..Default::default()
     };
     let container_config = Config {
-        image: Some("zingodevops/regchest:008"),
+        image: Some("zingodevops/regchest:009"),
         host_config: Some(host_config),
         cmd: Some(vec!["--no-default-features", "--features", scenario]),
         ..Default::default()
