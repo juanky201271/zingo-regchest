@@ -8,9 +8,12 @@ default = ["funded_orchard_mobileclient"]
 funded_orchard_mobileclient = []
 funded_orchard_with_3_txs_mobileclient = []
 funded_orchard_sapling_transparent_shielded_mobileclient = []
+funded_transparent_mobileclient = []
 
 [dependencies]
-zingolib = { git="https://github.com/zingolabs/zingolib.git", default-features=true, branch = "dev", features=[ "test-elevation" ] }
+zingolib = { git = "https://github.com/zingolabs/zingolib.git", default-features = true, branch = "dev", features = [
+    "test-elevation",
+] }
 tokio = "1.32.0"
 
 [profile.release]
