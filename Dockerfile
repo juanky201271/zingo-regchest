@@ -1,9 +1,9 @@
-FROM zingodevops/ci-build:003
+FROM zingodevops/ci-build:004
 
 WORKDIR /usr/src
 RUN git clone https://github.com/zingolabs/zingo-regchest.git \
     && cd zingo-regchest \
-    && git checkout 593ee3c2a127dd94634f0b670e21580b6e51a588
+    && git checkout a102e04295863113dfb094f08cb9ef4b1207027f
 
 WORKDIR /usr/src/zingo-regchest
 RUN ln -s /usr/bin/lightwalletd /usr/bin/zcashd /usr/bin/zcash-cli ./test_binaries/bins
