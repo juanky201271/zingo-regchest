@@ -18,3 +18,6 @@ Then, from the root directory:
  - run 'docker login' and fill in the credentials for DockerHub
  - run 'docker push zingodevops/regchest:{new image version number}' to push to DockerHub
 
+ Afterwards, regtest utils can be updated to launch the new version.
+
+NOTE: if `sudo` is necessary use `sudo` with all commands including login.
