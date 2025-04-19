@@ -9,7 +9,6 @@ WORKDIR /usr/src/zingo-regchest
 RUN ln -s /usr/bin/lightwalletd /usr/bin/zcashd /usr/bin/zcash-cli ./test_binaries/bins
 
 WORKDIR /usr/src/zingo-regchest/regchest
-#RUN ln -s /usr/bin/lightwalletd /usr/bin/zcashd /usr/bin/zcash-cli ./regtest/bin
 RUN ln -s /root/.zcash-params /usr/src
 RUN cargo build --release
 
