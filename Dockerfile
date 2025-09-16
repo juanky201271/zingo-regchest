@@ -1,4 +1,4 @@
-FROM zingodevops/ci-build:005
+FROM zingodevops/ci-build:009
 
 WORKDIR /usr/src
 RUN git clone https://github.com/zingolabs/zingo-regchest.git \
