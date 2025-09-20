@@ -11,8 +11,8 @@ funded_orchard_sapling_transparent_shielded_mobileclient = []
 funded_transparent_mobileclient = []
 
 [dependencies]
-zingolib = { git = "https://github.com/zingolabs/zingolib.git", default-features = true, tag = "2.0.6", features = [
-    "test-elevation",
+zingolib = { git = "https://github.com/zingolabs/zingolib.git", default-features = true, tag = "2.0.7", features = [
+    "testutils",
 ] }
 tokio = "1"
 
