@@ -3,7 +3,7 @@ FROM zingodevops/ci-build:009 AS builder
 WORKDIR /usr/src
 RUN git clone https://github.com/zingolabs/zingo-regchest.git \
     && cd zingo-regchest \
-    && git checkout 90e5d2b386eddb6c446b43bb0568d1734180cfd7
+    && git checkout 3bc9933a7d8d01750c9c717a73219f038df261e3
 
 WORKDIR /usr/src/zingo-regchest/regchest
 RUN cargo build --release
