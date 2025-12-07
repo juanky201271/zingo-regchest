@@ -73,7 +73,7 @@ async fn create_regchest_container(
         ..Default::default()
     };
     let container_config = Config {
-        image: Some("zingodevops/regchest:011"),
+        image: Some("zingodevops/regchest:012"),
         host_config: Some(host_config),
         cmd: Some(vec!["--no-default-features", "--features", scenario]),
         ..Default::default()
