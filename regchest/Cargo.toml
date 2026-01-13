@@ -11,10 +11,10 @@ funded_orchard_sapling_transparent_shielded_mobileclient = []
 funded_transparent_mobileclient = []
 
 [dependencies]
-zingolib = { git = "https://github.com/zingolabs/zingolib.git", default-features = true, tag = "2.1.1", features = [
+zingolib = { git = "https://github.com/zingolabs/zingolib.git", default-features = true, tag = "zingolib_v2.1.2", features = [
     "testutils",
 ] }
-zingolib_testutils = { git = "https://github.com/zingolabs/zingolib", tag = "2.1.1", features = ["test_lwd_zcashd"] }
+zingolib_testutils = { git = "https://github.com/zingolabs/zingolib", tag = "zingolib_v2.1.2", features = ["test_lwd_zcashd"] }
 
 tokio = "1"
 
