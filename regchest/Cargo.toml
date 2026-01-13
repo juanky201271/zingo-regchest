@@ -18,6 +18,8 @@ zingolib_testutils = { git = "https://github.com/zingolabs/zingolib", tag = "2.1
 
 tokio = "1"
 
+rusqlite = { version = "0.37.0", features = ["bundled"] }
+
 [profile.release]
 debug = false
 

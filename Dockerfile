@@ -1,14 +1,14 @@
-FROM zingodevops/ci-build:009 AS builder
+FROM zingodevops/ci-build:010 AS builder
 
 WORKDIR /usr/src
 RUN git clone https://github.com/zingolabs/zingo-regchest.git \
     && cd zingo-regchest \
-    && git checkout 3bc9933a7d8d01750c9c717a73219f038df261e3
+    && git checkout eda138c0a0fb7b037ff2e050a9e1d76f65b4453e
 
 WORKDIR /usr/src/zingo-regchest/regchest
 RUN cargo build --release
 
-FROM zingodevops/ci-build:009 AS runtime
+FROM zingodevops/ci-build:010 AS runtime
 
 COPY --from=builder /usr/src/zingo-regchest/regchest/target/release/regchest /usr/local/bin/regchest
 
